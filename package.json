@@ -3,17 +3,21 @@
   "version": "1.0.0",
   "description": "",
   "author": "Hamada",
-  "main": "index.js",
   "type": "module",
-  "directories": {
-    "lib": "lib"
-  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/types/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c",
     "clean": "rm -rf dist"
   },
-  "keywords": ["workflow", "orchestration", "typescript", "automation"],
+  "keywords": [
+    "workflow",
+    "orchestration",
+    "typescript",
+    "automation"
+  ],
   "license": "ISC",
   "dependencies": {
     "chalk": "^5.6.2",

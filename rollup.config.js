@@ -5,16 +5,26 @@ export default {
   input: "src/index.ts",
   output: [
     {
-      file: pkg.main,
+      file: pkg.main,   // -> "dist/index.cjs"
       format: "cjs",
       sourcemap: true,
+      exports: "named",
     },
     {
-      file: pkg.module,
+      file: pkg.module, // -> "dist/index.js"
       format: "es",
       sourcemap: true,
     },
   ],
-  plugins: [typescript()],
-  external: [...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.peerDependencies || {})],
+  plugins: [
+    typescript({
+      tsconfig: "./tsconfig.json",
+      useTsconfigDeclarationDir: true, // ensures .d.ts go to declarationDir
+      clean: true,
+    }),
+  ],
+  external: [
+    ...Object.keys(pkg.dependencies || {}),
+    ...Object.keys(pkg.peerDependencies || {}),
+  ],
 };
