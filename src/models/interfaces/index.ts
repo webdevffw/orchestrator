@@ -48,12 +48,9 @@ export interface IWorkerStep {
 export interface IDetails {
   title: string;
   description?: string;
-  target?: string;
-  action: string;
   logDir: string;
   logFile: string;
-  status: StateCode;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   user?: string;
 }

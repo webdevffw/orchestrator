@@ -43,10 +43,10 @@ export type JobDetails = {
   name: string;
   logDir?: string;
   logFile?: string;
-  status?: StateCode;
+  status?: Status;
   user?: string;
   email?: string;
   description?: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 };

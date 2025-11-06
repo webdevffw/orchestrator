@@ -3,7 +3,7 @@ import { generateId } from "@utils/cryptographer";
 import { LoggerModule } from "./logger";
 import { globalState } from "../state/jobs";
 import { Runner } from "./runner";
-import { JobDetails, Workflow, StateCode } from "@models/types";
+import { JobDetails, Workflow, Status } from "@models/types";
 import { IDetails } from "@models/interfaces";
 
 export default class Job {
@@ -26,13 +26,13 @@ export default class Job {
   }
 
   attachStream = () => this.logger.attachReadStream();
-  orchestrationsStarted = () => this.details.status !== "creating";
+  orchestrationsStarted = () => this.details.status !== "pending";
 
   getId = () => this.details.id;
   getDetails = <T extends JobDetails>() => this.details as T;
   setDetails = <T extends JobDetails>(details: T) => this.details = details;
   updateDetails = <T extends JobDetails>(details: T) => this.details = { ...this.details, ...details };
-  updateStatus = (status: StateCode) => this.details.status = status;
+  updateStatus = (status: Status) => this.details.status = status;
   getStreamingUrl = () => this.logger.getUrl();
 
   start = async () => {
@@ -47,8 +47,8 @@ export default class Job {
 
       await this.runner.run(starter(payload), phaseIndex, stepIndex);
 
-      this.details.status = "creating";
-      this.details.updatedAt = new Date();
+      this.details.status = "running";
+      this.details.updatedAt = new Date().toISOString();
 
       await this.logger.ping('--- Orchestration Complete ---');
     } catch (err: any) {
@@ -56,8 +56,8 @@ export default class Job {
 
       this.details.status = "error";
     } finally {
-      this.details.updatedAt = new Date();
-      this.details.status = this.details.status === "error" ? "error" : "ok";
+      this.details.updatedAt = new Date().toISOString();
+      this.details.status = this.details.status === "error" ? "error" : "done";
 
       await this.logger.ping('Closing connection');
       await this.logger.done();
