@@ -1,4 +1,4 @@
-import { GlobalState } from "@state/jobs";
+import { GlobalState, globalState } from "@state/jobs";
 import { IDetails } from "@models/interfaces";
 import { Workflow, JobDetails } from "@models/types";
 import Job from "@lib/job";
@@ -7,11 +7,11 @@ export const runtime = "nodejs";
 
 export class ActionController {
   protected processStructure: any;
+  private state: GlobalState = globalState;
 
   constructor(
     private details: IDetails,
     protected work: Workflow,
-    protected state: GlobalState,
   ) {}
 
   executeWorker = (): JobDetails | undefined => {
