@@ -1,1 +1,12 @@
+# Exclude source & build tools
+src
 node_modules
+rollup.config.js
+tsconfig.json
+package.lock.json
+.gitignore
+*.tgz
+*.zip
+
+# Include built code only
+!dist/
