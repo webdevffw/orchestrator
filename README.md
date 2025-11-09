@@ -11,19 +11,18 @@ NPM Package
 ### Usage
 Import objects as dependencies
 ```
-import { ActionController } from 'orcarunner';
-import { IEventAction } from 'orcarunner';
+import { ActionController, IEventAction, IWorkerPhase } from 'orcarunner';
 
-const demoFn = (payload: any, action: IEventAction): Promise<void> => {
-  const { args } = payload;
-
+export const printString = (str: string, action: IEventAction): Promise<void> => {
   return new Promise((resolve, reject) => {
-    args.forEach(i => console.log(i));
+    console.log('\nPRINTING STRING:', str, '\n');
     resolve();
   });
 }
 
-const demoWorkflow = (payload) => {
+export const demoWorkflow = (payload: any): IWorkerPhase[] => {
+  const { args } = payload;
+
   return [
     {
       name: "",
@@ -31,7 +30,7 @@ const demoWorkflow = (payload) => {
       steps: [
         {
           name: "",
-          fn: (action: IEventAction) => demoFn(payload, action)
+          fn: (action: IEventAction) => printString(args[0], action)
         }
       ]
     }
